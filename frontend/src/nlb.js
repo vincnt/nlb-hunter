@@ -59,9 +59,10 @@ export function Nlb() {
     const [displayLocationBooks, setDisplayLocationBooks] = useState([])
     const [selectedLocation, setSelectedLocation] = useState()
     const [readingListAlert, setReadingListAlert] = useState('')
+    const [readingListExport, setReadingListExport] = useState('')
+
     const getTitleDetails = firebase.functions().httpsCallable('getTitleDetails')
     const getAvailability = firebase.functions().httpsCallable('availability');
-
   
     async function getAllAvailable(bid){
       const results = await getAvailability({bid})
@@ -81,7 +82,7 @@ export function Nlb() {
           const bookDetails = await getTitleDetails({ISBN: isbn})
           if (bookDetails.data.results){
             setReadingListAlert('')
-            return setReadingList(prev => [...prev, bookDetails.data.results])
+            return setReadingList(prev => [...prev, {userIsbn: isbn, ...bookDetails.data.results}])
           } else{
             return setReadingListAlert('Invalid ISBN')
           }
@@ -117,6 +118,10 @@ export function Nlb() {
           <Button size="small" onClick={()=>removeReadingListCard(book)}>Remove from list</Button>
         </CardActions>
       </Card>)
+    }
+
+    function exportReadingList(){
+      setReadingListExport(readingList.map(i=>i.userIsbn).join(' '))
     }
 
 
@@ -204,7 +209,8 @@ export function Nlb() {
               <>{loadingReadingList ? <CircularProgress color="inherit" size={20} /> : null}</>
               <p style={{fontSize:'8px'}}>Accepts space seperated list of ISBNs</p>
               {readingListAlert.length>0 && <Alert severity="warning">{readingListAlert}</Alert>}
-
+              {readingList.length>0 && <Button variant="outlined" onClick={()=>exportReadingList()}>Export Reading List</Button>}
+              {readingListExport.length>0 && <p>{readingListExport}</p>}
               <GridList cols={4.5} className={classes.gridList}>
                 {
                   readingList.map((book,i)=>
