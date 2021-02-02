@@ -4,7 +4,7 @@
   "description": "helper app for singapore nlb catalogue",
   "main": "index.js",
   "scripts": {
-    "deploy-hosting": "firebase deploy --only hosting",
+    "deploy-hosting": "cd frontend && yarn build && firebase deploy --only hosting",
     "deploy-functions": "firebase deploy --only functions",
     "deploy": "firebase deploy",
     "functions":"firebase functions:config:get > .runtimeconfig.json && firebase emulators:start --only functions",
