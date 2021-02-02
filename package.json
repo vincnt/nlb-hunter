@@ -1,0 +1,26 @@
+{
+  "name": "sg-nlb",
+  "version": "1.0.0",
+  "description": "helper app for singapore nlb catalogue",
+  "main": "index.js",
+  "scripts": {
+    "deploy-hosting": "firebase deploy --only hosting",
+    "deploy-functions": "firebase deploy --only functions",
+    "deploy": "firebase deploy",
+    "functions":"firebase functions:config:get > .runtimeconfig.json && firebase emulators:start --only functions",
+    "frontend":"cd frontend && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincnt/sg-nlb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincnt/sg-nlb/issues"
+  },
+  "homepage": "https://github.com/vincnt/sg-nlb#readme",
+  "dependencies": {
+  }
+}
